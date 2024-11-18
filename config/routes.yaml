@@ -3,3 +3,13 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+test_message:
+    path: /testMessage
+    controller: App\Controller\ProductCardController::testMessage
+    methods: GET
+
+create_product:
+    path: /create
+    controller: App\Controller\ProductCardController::create
+    methods: POST
