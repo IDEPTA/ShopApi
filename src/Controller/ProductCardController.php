@@ -31,9 +31,9 @@ class ProductCardController extends AbstractController
     public function create(Request $req): JsonResponse
     {
         try {
-            $testMsg = $this->productCardServices->create($req);
+            $createdCard = $this->productCardServices->create($req);
             return $this->json([
-                "message" => $testMsg,
+                "message" => $createdCard,
             ]);
         } catch (Exception $e) {
             return $this->json([

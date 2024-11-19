@@ -38,6 +38,11 @@ class ProductCard
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updated_at = null;
 
+    #[ORM\ManyToOne(targetEntity: ProductCategory::class, inversedBy: 'productCards')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE', onUpdate: 'CASCADE')]
+    #[Assert\NotNull(message: "Категория не может быть пустой")]
+    private ?ProductCategory $category = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -135,6 +140,18 @@ class ProductCard
     public function setUpdatedAt(\DateTimeInterface $updated_at): static
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getCategory(): ?ProductCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?ProductCategory $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }
