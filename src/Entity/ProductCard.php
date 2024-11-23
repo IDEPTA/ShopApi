@@ -39,7 +39,7 @@ class ProductCard
     private ?\DateTimeInterface $updated_at = null;
 
     #[ORM\ManyToOne(targetEntity: ProductCategory::class, inversedBy: 'productCards')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE', onUpdate: 'CASCADE')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     #[Assert\NotNull(message: "Категория не может быть пустой")]
     private ?ProductCategory $category = null;
 
