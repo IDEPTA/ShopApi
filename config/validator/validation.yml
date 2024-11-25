@@ -1,0 +1,30 @@
+App\Entity\ProductCard:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length:
+                 min: 5
+                 max: 100
+        description:
+            - NotBlank: ~
+        price:
+            - NotBlank: ~
+            - Type:
+                type: 'numeric'
+                message: 'Цена должна быть в числовом формате'
+        availability: 
+            - NotBlank: ~
+            - Type:
+                type: 'bool'
+                message: 'The availability must be a boolean value.'
+        quantity: 
+          - NotBlank: ~
+          - Type:
+                type: 'numeric'
+                message: 'Кол-во должно быть в числовом формате'
+        created_at: 
+            - NotBlank: ~
+            - DateTime: { message: 'The value should be a valid date and time.' }
+        updated_at: 
+            - NotBlank: ~
+            - DateTime: { message: 'The value should be a valid date and time.' }
