@@ -2,23 +2,74 @@
 
 namespace App\Repository;
 
+use DateTime;
+use Carbon\Carbon;
 use App\Entity\User;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
+use function PHPSTORM_META\type;
 
 /**
  * @extends ServiceEntityRepository<User>
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    private $entityManager;
+    private $passwordHasher;
+    private $validator;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        ValidatorInterface $validator,
+        UserPasswordHasherInterface $passwordHasher,
+        EntityManagerInterface $entityManager
+    ) {
+        $this->passwordHasher = $passwordHasher;
+        $this->validator = $validator;
+        $this->entityManager = $entityManager;
         parent::__construct($registry, User::class);
     }
 
+    public function register(array $data)
+    {
+        // Создаем объект User
+
+        $user = new User();
+        $user->setName($data['name']);
+        $user->setLastname($data['lastname']);
+        $user->setPatronymic($data['patronymic']);
+        $user->setEmail($data['email']);
+        $user->setPhone($data['phone']);
+        $user->setBirthDate(new \DateTime($data['birth_date']));
+        $user->setPassword($this->passwordHasher->hashPassword($user, $data['password']));
+        $user->setCreatedAt(Carbon::now());
+        $user->setUpdatedAt(Carbon::now());
+
+        $errors = $this->validator->validate($user);
+        if (count($errors) > 0) {
+            // Если ошибки есть, возвращаем их
+            $errorsString = (string) $errors;
+            return [
+                'success' => false,
+                'message' => $errorsString,
+                'status' => 400,
+            ];
+        }
+
+        // Сохраняем объект в базу данных
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        // Возвращаем успешный ответ
+        return $user;
+    }
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */

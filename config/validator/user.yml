@@ -1,0 +1,42 @@
+App\Entity\User:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length:
+                 min: 5
+                 max: 100
+        lastname:
+            - NotBlank: ~
+            - Length:
+                 min: 5
+                 max: 100
+        patronymic:
+           - NotBlank: ~
+           - Length:
+                 min: 5
+                 max: 100
+        email: 
+            - NotBlank: ~
+            - Email:
+                message: 'Введите корректный email адрес'
+        phone: 
+          - NotBlank: ~
+          - Type:
+                type: 'numeric'
+                message: 'Номер телефона должен содержать только цифры'
+        password: 
+          - NotBlank: ~
+          - Length:
+                 min: 8
+                 max: 100
+        birth_date:
+          - NotBlank: ~
+          - Type:
+                 type: \DateTimeInterface
+                 message: 'The value should be a valid date and time.'
+        created_at: 
+            - NotBlank: ~
+            - DateTime: { message: 'The value should be a valid date and time.' }
+        updated_at: 
+            - NotBlank: ~
+            - DateTime: { message: 'The value should be a valid date and time.' }

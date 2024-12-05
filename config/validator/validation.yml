@@ -24,7 +24,7 @@ App\Entity\ProductCard:
                 message: 'Кол-во должно быть в числовом формате'
         created_at: 
             - NotBlank: ~
-            - DateTime: { message: 'The value should be a valid date and time.' }
+            - Date: { message: 'The value should be a valid date and time.' }
         updated_at: 
             - NotBlank: ~
             - DateTime: { message: 'The value should be a valid date and time.' }
