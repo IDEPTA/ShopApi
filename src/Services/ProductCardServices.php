@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Repository\ProductCardRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class ProductCardServices

@@ -2,14 +2,12 @@
 
 namespace App\Entity;
 
-use DateInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
-use Symfony\Component\Config\Definition\NumericNode;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Validator\Constraints\Date;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`users`')]
@@ -19,36 +17,46 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['user:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 170)]
+    #[Groups(['user:read'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 180)]
+    #[Groups(['user:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 180)]
+    #[Groups(['user:read'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 180)]
+    #[Groups(['user:read'])]
     private ?string $patronymic = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
+    #[ORM\Column(type: Types::BIGINT)]
+    #[Groups(['user:read'])]
     private ?int $phone = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?string $birth_date = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['user:read'])]
+    private ?\DateTimeInterface $birth_date = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['user:read'])]
     private ?\DateTimeInterface $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['user:read'])]
     private ?\DateTimeInterface $updated_at = null;
 
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column]
+    #[Groups(['user:read'])]
     private array $roles = [];
 
     /**
@@ -168,12 +176,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getBirthDate(): ?Date
+    public function getBirthDate(): ?\DateTimeInterface
     {
         return $this->birth_date;
     }
 
-    public function setBirthDate(Date $birth_date): static
+    public function setBirthDate(\DateTimeInterface $birth_date): static
     {
         $this->birth_date = $birth_date;
 

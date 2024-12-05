@@ -5,7 +5,7 @@ controllers:
     type: attribute
 
 test_message:
-    path: /testMessage
+    path: /api/testMessage
     controller: App\Controller\ProductCardController::testMessage
     methods: GET
 
@@ -13,3 +13,29 @@ create_product:
     path: /create
     controller: App\Controller\ProductCardController::create
     methods: POST
+
+app_auth:
+    path: /api/auth
+    controller: App\Controller\AuthController::index
+    methods: GET
+
+app_register:
+    path: api/auth/register
+    controller: App\Controller\AuthController::register
+    methods: [POST]
+
+app_login:
+    path: api/auth/login
+    controller: App\Controller\AuthController::login
+    methods: [POST]
+    
+app_logout:
+    path: api/auth/logout
+    controller: App\Controller\AuthController::logout
+    methods: [GET]
+
+get_user_info:
+    path: api/auth/user
+    controller: App\Controller\AuthController::getUserInfo
+    methods: [GET]
+
