@@ -39,3 +39,9 @@ get_user_info:
     controller: App\Controller\AuthController::getUserInfo
     methods: [GET]
 
+product_dashboard:
+    path: /admin/product
+    controller: App\Controller\Admin\Product\ProductDashboardController::index
+category_dashboard:
+    path: /admin/category
+    controller: App\Controller\Admin\Category\CategoryDashboardController::index
